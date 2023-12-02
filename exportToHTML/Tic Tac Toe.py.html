@@ -1,0 +1,200 @@
+<html>
+<head>
+<title>Tic Tac Toe.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #7ec3e6;}
+.s1 { color: #ebebeb;}
+.s2 { color: #ed864a;}
+.s3 { color: #54b33e;}
+.s4 { color: #ed864a; font-weight: bold;}
+.s5 { color: #33ccff; font-weight: bold;}
+</style>
+</head>
+<body bgcolor="#131314">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Tic Tac Toe.py</font>
+</center></td></tr></table>
+<pre><span class="s0">#Tic Tac Toe Game(FrontEnd) - Version1 simply to build rules for functionality.</span>
+<span class="s0"># Version2 will implement logic for CPU to be competitive</span>
+
+<span class="s0">#Let's start with random to play, in order to master the Version1 functionality first</span>
+<span class="s2">import </span><span class="s1">random</span>
+
+<span class="s0">#Apparently to end a game, I need to import a command from the sys library</span>
+<span class="s2">import </span><span class="s1">sys</span>
+
+<span class="s0"># Lets set the tic-tac-toe board as a global variable to access from all functions</span>
+<span class="s1">global_board = [</span><span class="s3">'___|___|___'</span><span class="s4">, </span><span class="s3">'___|___|___'</span><span class="s4">, </span><span class="s3">'   |   |   '</span><span class="s1">]</span>
+
+<span class="s2">def </span><span class="s1">randomizerow()</span>
+    <span class="s1">rrow = [</span><span class="s5">1</span><span class="s4">, </span><span class="s5">2</span><span class="s4">, </span><span class="s5">3</span><span class="s1">]</span>
+    <span class="s2">return </span><span class="s1">random.choice(rrow)</span>
+<span class="s2">def </span><span class="s1">randomizecol()</span>
+    <span class="s1">rcol = [</span><span class="s5">1</span><span class="s4">, </span><span class="s5">5</span><span class="s4">, </span><span class="s5">9</span><span class="s1">]</span>
+    <span class="s2">return </span><span class="s1">random.choice(rcol)</span>
+
+<span class="s1">global_fcol = randomizecol()</span>
+<span class="s1">global_frow = randomizerow()</span>
+
+
+<span class="s2">def </span><span class="s1">start(string1):</span>
+    <span class="s0">#This function is to ask the user if they would like to start the game off or not</span>
+            <span class="s1">string1 = string1.lower()</span>
+            <span class="s2">if </span><span class="s1">string1 == </span><span class="s3">'yes'</span><span class="s1">:</span>
+                <span class="s1">user_move()</span>
+            <span class="s2">elif </span><span class="s1">string1 == </span><span class="s3">'no'</span><span class="s1">:</span>
+                <span class="s1">rcol = [</span><span class="s5">1</span><span class="s4">, </span><span class="s5">5</span><span class="s4">, </span><span class="s5">9</span><span class="s1">]</span>
+                <span class="s1">rrow = [</span><span class="s5">1</span><span class="s4">, </span><span class="s5">2</span><span class="s4">, </span><span class="s5">3</span><span class="s1">]</span>
+                <span class="s1">comp_move()</span>
+
+
+<span class="s2">def </span><span class="s1">display_board():</span>
+    <span class="s0">#This function is for printing the board/array in a presentable manner in the console</span>
+                <span class="s1">board_string = </span><span class="s3">''</span>
+                <span class="s2">for </span><span class="s1">x </span><span class="s2">in </span><span class="s1">range(len(global_board)):</span>
+                    <span class="s1">board_string +=(global_board[x]) + </span><span class="s3">'</span><span class="s2">\n</span><span class="s3">'</span>
+                <span class="s2">return </span><span class="s1">board_string</span>
+                    <span class="s0">#Double indexes can print the string content of the list and not the list brackets</span>
+
+<span class="s2">def </span><span class="s1">update_board(choice</span><span class="s4">,</span><span class="s1">row</span><span class="s4">,</span><span class="s1">column):</span>
+                <span class="s0">#This formula updates the global board using parameters given</span>
+                <span class="s0">#Iterates through the strings and creates a new string with updated choice</span>
+
+            <span class="s1">global_board[row - </span><span class="s5">1</span><span class="s1">] = global_board[row-</span><span class="s5">1</span><span class="s1">][:column]+ choice +global_board[row-</span><span class="s5">1</span><span class="s1">][column + </span><span class="s5">1</span><span class="s1">:]</span>
+            <span class="s2">return </span><span class="s1">global_board</span>
+
+
+
+<span class="s2">def </span><span class="s1">comp_move():</span>
+
+    <span class="s0">#Define the variables</span>
+        <span class="s1">options = </span><span class="s3">'O'</span>
+
+        <span class="s0">#Lets check if the spot has been taken</span>
+        <span class="s1">occupancy(global_fcol</span><span class="s4">,</span><span class="s1">global_frow</span><span class="s4">,</span><span class="s5">2</span><span class="s1">)</span>
+
+        <span class="s1">print(global_fcol</span><span class="s4">,</span><span class="s1">global_frow)</span>
+
+        <span class="s0">#Let's make a logical decision here</span>
+        <span class="s1">clear_path(options</span><span class="s4">, </span><span class="s1">global_frow</span><span class="s4">, </span><span class="s1">global_fcol)</span>
+
+        <span class="s0">#If not, lets update the board</span>
+        <span class="s1">print(</span><span class="s3">'My move'</span><span class="s1">)</span>
+        <span class="s1">end_game(</span><span class="s3">'Computer wins!'</span><span class="s1">)</span>
+        <span class="s1">print(display_board())</span>
+        <span class="s1">print(</span><span class="s3">'Your move'</span><span class="s1">)</span>
+        <span class="s1">user_move()</span>
+
+<span class="s2">def </span><span class="s1">vertical(options</span><span class="s4">,</span><span class="s1">frow</span><span class="s4">,</span><span class="s1">fcol):</span>
+    <span class="s2">for </span><span class="s1">x </span><span class="s2">in </span><span class="s1">[</span><span class="s5">0</span><span class="s4">,</span><span class="s5">1</span><span class="s4">,</span><span class="s5">2</span><span class="s1">]:</span>
+        <span class="s2">if </span><span class="s1">global_board[x][fcol] == </span><span class="s3">'X'</span><span class="s1">:</span>
+            <span class="s2">return False</span>
+    <span class="s1">frow = x</span>
+    <span class="s1">update_board(options</span><span class="s4">, </span><span class="s1">frow</span><span class="s4">, </span><span class="s1">fcol)</span>
+
+
+<span class="s2">def </span><span class="s1">user_move():</span>
+        <span class="s1">options = </span><span class="s3">'X'</span>
+        <span class="s0">#Lets ask the user for their choice</span>
+        <span class="s1">urow = int(input(</span><span class="s3">'Row: '</span><span class="s1">))</span>
+        <span class="s1">ucol = int(input(</span><span class="s3">'Column: '</span><span class="s1">))</span>
+
+        <span class="s0">#Lets prevent out of range entries</span>
+        <span class="s1">range = [</span><span class="s5">1</span><span class="s4">,</span><span class="s5">2</span><span class="s4">,</span><span class="s5">3</span><span class="s1">]</span>
+        <span class="s2">if </span><span class="s1">ucol </span><span class="s2">not in </span><span class="s1">range </span><span class="s2">or </span><span class="s1">urow </span><span class="s2">not in </span><span class="s1">range:</span>
+            <span class="s1">print(</span><span class="s3">'Out of Range, Give me a number from 1 to 3'</span><span class="s1">)</span>
+            <span class="s1">user_move()</span>
+
+        <span class="s0">#Lets translate the user input to indexes in the array</span>
+        <span class="s2">if </span><span class="s1">ucol == </span><span class="s5">2</span><span class="s1">:</span>
+            <span class="s1">ucol = </span><span class="s5">5</span>
+        <span class="s2">elif </span><span class="s1">ucol == </span><span class="s5">3</span><span class="s1">:</span>
+            <span class="s1">ucol = </span><span class="s5">9</span>
+
+        <span class="s0">#Lets check if the space has been taken</span>
+        <span class="s1">occupancy(ucol</span><span class="s4">,</span><span class="s1">urow</span><span class="s4">,</span><span class="s5">1</span><span class="s1">)</span>
+
+        <span class="s0">#If not lets update the board</span>
+        <span class="s1">update_board(options</span><span class="s4">, </span><span class="s1">urow</span><span class="s4">, </span><span class="s1">ucol)</span>
+        <span class="s0">#If the board meets the end_game parameters, it will end or continue to print</span>
+        <span class="s1">end_game(</span><span class="s3">'Player wins!'</span><span class="s1">)</span>
+        <span class="s1">print(display_board())</span>
+
+        <span class="s0">#Lets give the user the option to proceed or take back their choice(In case of mistakes)</span>
+        <span class="s1">print(</span><span class="s3">'Confirm(type yes) or Undo(type no): '</span><span class="s1">)</span>
+        <span class="s1">cont = input()</span>
+        <span class="s1">cont = cont.lower()</span>
+        <span class="s2">if </span><span class="s1">cont == </span><span class="s3">'yes'</span><span class="s1">:</span>
+            <span class="s1">comp_move()</span>
+        <span class="s2">elif </span><span class="s1">cont == </span><span class="s3">'no'</span><span class="s1">:</span>
+            <span class="s0"># Call the undo move function</span>
+            <span class="s1">undo_move(urow</span><span class="s4">,</span><span class="s1">ucol)</span>
+
+
+<span class="s2">def </span><span class="s1">undo_move(row</span><span class="s4">,</span><span class="s1">col):</span>
+        <span class="s0">#Undo move function is handy for mistakes or hasty moves</span>
+        <span class="s2">if </span><span class="s1">row </span><span class="s2">in </span><span class="s1">[</span><span class="s5">0</span><span class="s4">,</span><span class="s5">1</span><span class="s1">]:</span>
+            <span class="s1">options = </span><span class="s3">'_'</span>
+        <span class="s2">else</span><span class="s1">:</span>
+            <span class="s1">options = </span><span class="s3">' '</span>
+        <span class="s0">#Let's replace the previously altered character back to the '_'</span>
+        <span class="s1">update_board(options</span><span class="s4">, </span><span class="s1">row</span><span class="s4">, </span><span class="s1">col)</span>
+        <span class="s1">print(display_board())</span>
+        <span class="s1">user_move()</span>
+
+<span class="s2">def </span><span class="s1">occupancy(col</span><span class="s4">,</span><span class="s1">row</span><span class="s4">,</span><span class="s1">turn):</span>
+    <span class="s0">#This function is for checking if the box has been taken or not</span>
+    <span class="s2">if </span><span class="s1">global_board[row-</span><span class="s5">1</span><span class="s1">][col] == </span><span class="s3">'X' </span><span class="s2">or </span><span class="s1">global_board[row-</span><span class="s5">1</span><span class="s1">][col] == </span><span class="s3">'O'</span><span class="s1">:</span>
+
+        <span class="s0">#If the space has a character that isn't free, it will requeue the choice</span>
+        <span class="s2">if </span><span class="s1">turn == </span><span class="s5">1</span><span class="s1">:</span>
+            <span class="s1">print(</span><span class="s3">'That spot is taken'</span><span class="s1">)</span>
+            <span class="s1">user_move()</span>
+        <span class="s2">elif </span><span class="s1">turn== </span><span class="s5">2</span><span class="s1">:</span>
+            <span class="s1">comp_move()</span>
+
+<span class="s2">def </span><span class="s1">end_game(string):</span>
+    <span class="s0">#Let's build a function to end the game once 3 X's or 3 O's are in a series</span>
+    <span class="s2">for </span><span class="s1">x </span><span class="s2">in </span><span class="s1">range(</span><span class="s5">0</span><span class="s4">,</span><span class="s5">3</span><span class="s1">):</span>
+        <span class="s2">if </span><span class="s1">global_board[x][</span><span class="s5">1</span><span class="s1">] == global_board[x][</span><span class="s5">5</span><span class="s1">] </span><span class="s2">and </span><span class="s1">global_board[x][</span><span class="s5">1</span><span class="s1">] == global_board[x][</span><span class="s5">9</span><span class="s1">] </span><span class="s2">and </span><span class="s1">global_board[x][</span><span class="s5">1</span><span class="s1">] </span><span class="s2">in </span><span class="s1">(</span><span class="s3">'O'</span><span class="s4">,</span><span class="s3">'X'</span><span class="s1">):</span>
+            <span class="s0">#This is the horizontal case</span>
+            <span class="s1">print(display_board())</span>
+            <span class="s1">print(</span><span class="s3">'Game Over!'</span><span class="s1">)</span>
+            <span class="s1">print(string)</span>
+            <span class="s1">sys.exit()</span>
+
+    <span class="s2">for </span><span class="s1">y </span><span class="s2">in </span><span class="s1">[</span><span class="s5">1</span><span class="s4">,</span><span class="s5">5</span><span class="s4">,</span><span class="s5">9</span><span class="s1">]:</span>
+        <span class="s2">if </span><span class="s1">global_board[</span><span class="s5">0</span><span class="s1">][y] == global_board[</span><span class="s5">1</span><span class="s1">][y] </span><span class="s2">and </span><span class="s1">global_board[</span><span class="s5">2</span><span class="s1">][y] == global_board[</span><span class="s5">0</span><span class="s1">][y] </span><span class="s2">and </span><span class="s1">global_board[</span><span class="s5">0</span><span class="s1">][y] </span><span class="s2">in </span><span class="s1">(</span><span class="s3">'O'</span><span class="s4">,</span><span class="s3">'X'</span><span class="s1">):</span>
+            <span class="s0">#This is the vertical case</span>
+            <span class="s1">print(display_board())</span>
+            <span class="s1">print(</span><span class="s3">'Game Over!'</span><span class="s1">)</span>
+            <span class="s1">print(string)</span>
+            <span class="s1">sys.exit()</span>
+
+        <span class="s0">#This is the right to left(Up to down) diagonal case</span>
+    <span class="s2">if </span><span class="s1">global_board[</span><span class="s5">0</span><span class="s1">][</span><span class="s5">9</span><span class="s1">] == global_board[</span><span class="s5">1</span><span class="s1">][</span><span class="s5">5</span><span class="s1">] </span><span class="s2">and  </span><span class="s1">global_board[</span><span class="s5">2</span><span class="s1">][</span><span class="s5">1</span><span class="s1">] == global_board[</span><span class="s5">0</span><span class="s1">][</span><span class="s5">9</span><span class="s1">] </span><span class="s2">and </span><span class="s1">global_board[</span><span class="s5">0</span><span class="s1">][</span><span class="s5">9</span><span class="s1">] </span><span class="s2">in </span><span class="s1">(</span><span class="s3">'O'</span><span class="s4">,</span><span class="s3">'X'</span><span class="s1">):</span>
+        <span class="s1">print(display_board())</span>
+        <span class="s1">print(</span><span class="s3">'Game Over!'</span><span class="s1">)</span>
+        <span class="s1">print(string)</span>
+        <span class="s1">sys.exit()</span>
+
+        <span class="s0"># This is the left to right(Up to down) diagonal case</span>
+    <span class="s2">if </span><span class="s1">global_board[</span><span class="s5">0</span><span class="s1">][</span><span class="s5">1</span><span class="s1">] == global_board[</span><span class="s5">1</span><span class="s1">][</span><span class="s5">5</span><span class="s1">] </span><span class="s2">and  </span><span class="s1">global_board[</span><span class="s5">2</span><span class="s1">][</span><span class="s5">9</span><span class="s1">] == global_board[</span><span class="s5">0</span><span class="s1">][</span><span class="s5">9</span><span class="s1">] </span><span class="s2">and </span><span class="s1">global_board[</span><span class="s5">0</span><span class="s1">][</span><span class="s5">1</span><span class="s1">] </span><span class="s2">in </span><span class="s1">(</span><span class="s3">'O'</span><span class="s4">,</span><span class="s3">'X'</span><span class="s1">):</span>
+        <span class="s1">print(display_board())</span>
+        <span class="s1">print(</span><span class="s3">'Game Over!'</span><span class="s1">)</span>
+        <span class="s1">print(string)</span>
+        <span class="s1">sys.exit()</span>
+
+
+<span class="s1">print(display_board())</span>
+<span class="s1">print(</span><span class="s3">'Would you like to start?: '</span><span class="s1">)</span>
+<span class="s1">answer = input(</span><span class="s3">'yes or no '</span><span class="s1">)</span>
+<span class="s2">while </span><span class="s1">answer </span><span class="s2">not in </span><span class="s1">(</span><span class="s3">'yes'</span><span class="s4">,</span><span class="s3">'no'</span><span class="s1">):</span>
+    <span class="s1">answer = input(</span><span class="s3">'invalid answer: yes or no: '</span><span class="s1">)</span>
+<span class="s1">start(answer)</span>
+</pre>
+</body>
+</html>
