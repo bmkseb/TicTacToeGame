@@ -1,5 +1,5 @@
 #Tic Tac Toe Game - Version1 simply to build rules for a functional user interface to play against the user.
-# Version2 will implement logic for CPU to be competitive using brute force logic, where for every move, the computer will have a given if statement to execute a following move
+#Version2 will implement logic for CPU to be competitive using brute force logic, where for every move, the computer will have a given if statement to execute a following move
 
 #Let's start with random to play, in order to master the Version1 functionality first
 import random
@@ -7,19 +7,10 @@ import random
 #Apparently to end a game, I need to import a command from the sys library
 import sys
 
-# Lets set the tic-tac-toe board as a global variable to access from all functions
+#Lets set the tic-tac-toe board as a global variable to access from all functions
 global_board = ['___|___|___', '___|___|___', '   |   |   ']
-#
-# #def randomizerow():
-#     rrow = [1, 2, 3]
-#     return random.choice(rrow)
-# #def randomizecol():
-#     rcol = [1, 5, 9]
-#     return random.choice(rcol)
-#
-# global_fcol = randomizecol()
-# global_frow = randomizerow()
-#
+
+
 
 def start(string1):
     #This function is to ask the user if they would like to start the game off or not
@@ -57,14 +48,10 @@ def comp_move():
         rcol = [1, 5, 9]
         frow = random.choice(rrow)
         fcol = random.choice(rcol)
+        
         #Lets check if the spot has been taken
         occupancy(fcol,frow,2)
-
-        #print(global_fcol,global_frow)
-
-        #Let's make a logical decision here
-        #clear_path(options, global_frow, global_fcol)
-
+        
         #If not, lets update the board
         update_board(options,frow,fcol)
         print('My move')
@@ -115,7 +102,7 @@ def user_move():
         if cont == 'yes':
             comp_move()
         elif cont == 'no':
-            # Call the undo move function
+            #Call the undo move function
             undo_move(urow,ucol)
 
 
@@ -166,7 +153,7 @@ def end_game(string):
         print(string)
         sys.exit()
 
-        # This is the left to right(Up to down) diagonal case
+        #This is the left to right(Up to down) diagonal case
     if global_board[0][1] == global_board[1][5] and  global_board[2][9] == global_board[0][1] and global_board[0][1] in ('O','X'):
         print(display_board())
         print('Game Over!')
